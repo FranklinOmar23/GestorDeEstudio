@@ -14,6 +14,7 @@ namespace CppCLRWinFormsProject {
 	/// </summary>
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
+	private: System::Collections::Generic::Dictionary<DateTime, System::Collections::Generic::List<String^>^>^ recordatorios;
 	public:
 		Form1(void)
 		{
@@ -21,6 +22,22 @@ namespace CppCLRWinFormsProject {
 			//
 			//TODO: Add the constructor code here
 			//
+
+			recordatorios = gcnew System::Collections::Generic::Dictionary<DateTime, System::Collections::Generic::List<String^>^>();
+
+			dateTimePickerEntrada->Format = DateTimePickerFormat::Time;
+			dateTimePickerEntrada->ShowUpDown = true; // Flechas para ajustar horas y minutos
+
+			dateTimePickerSalida->Format = DateTimePickerFormat::Time;
+			dateTimePickerSalida->ShowUpDown = true;
+
+			// Ahora es seguro acceder al dataGridViewMaterias
+			dataGridViewMaterias->ColumnCount = 5;
+			dataGridViewMaterias->Columns[0]->Name = "Nombre de la Materia";
+			dataGridViewMaterias->Columns[1]->Name = "Maestro";
+			dataGridViewMaterias->Columns[2]->Name = "Horario";
+			dataGridViewMaterias->Columns[3]->Name = "Día de Clases";
+			dataGridViewMaterias->Columns[4]->Name = "Aula/Modalidad";
 		}
 
 	protected:
@@ -35,37 +52,59 @@ namespace CppCLRWinFormsProject {
 			}
 		}
 	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::MonthCalendar^ monthCalendarExamenes;
 	protected:
-	private: System::Windows::Forms::MonthCalendar^ monthCalendar1;
+
 	private: System::Windows::Forms::Panel^ panel1;
-	private: System::Windows::Forms::DataGridView^ dataGridView1;
+	private: System::Windows::Forms::DataGridView^ dataGridViewMaterias;
+
 
 	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::TextBox^ textBox1;
-	private: System::Windows::Forms::TextBox^ textBox2;
-	private: System::Windows::Forms::TextBox^ textBox3;
-	private: System::Windows::Forms::TextBox^ textBox4;
-	private: System::Windows::Forms::TextBox^ textBox5;
+	private: System::Windows::Forms::TextBox^ txtNombreMateria;
+	private: System::Windows::Forms::TextBox^ txtDiaClases;
+
+
+
+
+	private: System::Windows::Forms::TextBox^ txtAulaModalidad;
+
+
+
+	private: System::Windows::Forms::TextBox^ txtMaestro;
+
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::Label^ label5;
 	private: System::Windows::Forms::Label^ label6;
 	private: System::Windows::Forms::Label^ label7;
-	private: System::Windows::Forms::Button^ button1;
-	private: System::Windows::Forms::Button^ button2;
-	private: System::Windows::Forms::Button^ button3;
+	private: System::Windows::Forms::Button^ btnAgregar;
+	private: System::Windows::Forms::Button^ btnCancelar;
+	private: System::Windows::Forms::Button^ btnActualizarLista;
+
+
+
 	private: System::Windows::Forms::Label^ label8;
 	private: System::Windows::Forms::Label^ label9;
 	private: System::Windows::Forms::Label^ label10;
 	private: System::Windows::Forms::Label^ label11;
 	private: System::Windows::Forms::Label^ label12;
-	private: System::Windows::Forms::TextBox^ textBox6;
+	private: System::Windows::Forms::TextBox^ txtNombreRecordatorio;
+
 	private: System::Windows::Forms::Label^ label13;
-	private: System::Windows::Forms::TextBox^ textBox7;
+
 	private: System::Windows::Forms::Label^ label14;
-	private: System::Windows::Forms::ComboBox^ comboBox1;
-	private: System::Windows::Forms::Button^ button4;
+	private: System::Windows::Forms::ComboBox^ comboBoxImportancia;
+
+	private: System::Windows::Forms::Button^ btnAgregarRecordatorio;
+
 	private: System::Windows::Forms::Button^ button5;
+	private: System::Windows::Forms::DateTimePicker^ dateTimePickerEntrada;
+	private: System::Windows::Forms::DateTimePicker^ dateTimePickerSalida;
+
+
+	private: System::Windows::Forms::Label^ label15;
+	private: System::Windows::Forms::DateTimePicker^ dateTimePickerFecha;
+
 
 	private:
 		/// <summary>
@@ -81,36 +120,38 @@ namespace CppCLRWinFormsProject {
 		void InitializeComponent(void)
 		{
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->monthCalendar1 = (gcnew System::Windows::Forms::MonthCalendar());
+			this->monthCalendarExamenes = (gcnew System::Windows::Forms::MonthCalendar());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
-			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
+			this->dataGridViewMaterias = (gcnew System::Windows::Forms::DataGridView());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox5 = (gcnew System::Windows::Forms::TextBox());
+			this->txtNombreMateria = (gcnew System::Windows::Forms::TextBox());
+			this->txtDiaClases = (gcnew System::Windows::Forms::TextBox());
+			this->txtAulaModalidad = (gcnew System::Windows::Forms::TextBox());
+			this->txtMaestro = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->label7 = (gcnew System::Windows::Forms::Label());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->btnAgregar = (gcnew System::Windows::Forms::Button());
+			this->btnCancelar = (gcnew System::Windows::Forms::Button());
+			this->btnActualizarLista = (gcnew System::Windows::Forms::Button());
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->label11 = (gcnew System::Windows::Forms::Label());
 			this->label12 = (gcnew System::Windows::Forms::Label());
-			this->textBox6 = (gcnew System::Windows::Forms::TextBox());
+			this->txtNombreRecordatorio = (gcnew System::Windows::Forms::TextBox());
 			this->label13 = (gcnew System::Windows::Forms::Label());
-			this->textBox7 = (gcnew System::Windows::Forms::TextBox());
 			this->label14 = (gcnew System::Windows::Forms::Label());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
-			this->button4 = (gcnew System::Windows::Forms::Button());
+			this->comboBoxImportancia = (gcnew System::Windows::Forms::ComboBox());
+			this->btnAgregarRecordatorio = (gcnew System::Windows::Forms::Button());
 			this->button5 = (gcnew System::Windows::Forms::Button());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
+			this->dateTimePickerEntrada = (gcnew System::Windows::Forms::DateTimePicker());
+			this->dateTimePickerSalida = (gcnew System::Windows::Forms::DateTimePicker());
+			this->label15 = (gcnew System::Windows::Forms::Label());
+			this->dateTimePickerFecha = (gcnew System::Windows::Forms::DateTimePicker());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewMaterias))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// label1
@@ -125,11 +166,13 @@ namespace CppCLRWinFormsProject {
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"Proximos Examenes";
 			// 
-			// monthCalendar1
+			// monthCalendarExamenes
 			// 
-			this->monthCalendar1->Location = System::Drawing::Point(16, 86);
-			this->monthCalendar1->Name = L"monthCalendar1";
-			this->monthCalendar1->TabIndex = 1;
+			this->monthCalendarExamenes->Location = System::Drawing::Point(16, 86);
+			this->monthCalendarExamenes->Name = L"monthCalendarExamenes";
+			this->monthCalendarExamenes->TabIndex = 1;
+			this->monthCalendarExamenes->DateChanged += gcnew System::Windows::Forms::DateRangeEventHandler(this, &Form1::monthCalendarExamenes_DateChanged);
+			this->monthCalendarExamenes->DateSelected += gcnew System::Windows::Forms::DateRangeEventHandler(this, &Form1::monthCalendarExamenes_DateSelected);
 			// 
 			// panel1
 			// 
@@ -140,13 +183,13 @@ namespace CppCLRWinFormsProject {
 			this->panel1->Size = System::Drawing::Size(10, 568);
 			this->panel1->TabIndex = 2;
 			// 
-			// dataGridView1
+			// dataGridViewMaterias
 			// 
-			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView1->Location = System::Drawing::Point(292, 310);
-			this->dataGridView1->Name = L"dataGridView1";
-			this->dataGridView1->Size = System::Drawing::Size(850, 240);
-			this->dataGridView1->TabIndex = 3;
+			this->dataGridViewMaterias->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->dataGridViewMaterias->Location = System::Drawing::Point(292, 310);
+			this->dataGridViewMaterias->Name = L"dataGridViewMaterias";
+			this->dataGridViewMaterias->Size = System::Drawing::Size(850, 240);
+			this->dataGridViewMaterias->TabIndex = 3;
 			// 
 			// label2
 			// 
@@ -161,40 +204,34 @@ namespace CppCLRWinFormsProject {
 			this->label2->TabIndex = 4;
 			this->label2->Text = L"Agregar Materia";
 			// 
-			// textBox1
+			// txtNombreMateria
 			// 
-			this->textBox1->Location = System::Drawing::Point(292, 111);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(217, 20);
-			this->textBox1->TabIndex = 5;
+			this->txtNombreMateria->Location = System::Drawing::Point(292, 111);
+			this->txtNombreMateria->Name = L"txtNombreMateria";
+			this->txtNombreMateria->Size = System::Drawing::Size(217, 20);
+			this->txtNombreMateria->TabIndex = 5;
+			this->txtNombreMateria->Text = L"Ingrese la materia";
 			// 
-			// textBox2
+			// txtDiaClases
 			// 
-			this->textBox2->Location = System::Drawing::Point(292, 198);
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(217, 20);
-			this->textBox2->TabIndex = 6;
+			this->txtDiaClases->Location = System::Drawing::Point(292, 198);
+			this->txtDiaClases->Name = L"txtDiaClases";
+			this->txtDiaClases->Size = System::Drawing::Size(134, 20);
+			this->txtDiaClases->TabIndex = 6;
 			// 
-			// textBox3
+			// txtAulaModalidad
 			// 
-			this->textBox3->Location = System::Drawing::Point(788, 111);
-			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(209, 20);
-			this->textBox3->TabIndex = 7;
+			this->txtAulaModalidad->Location = System::Drawing::Point(473, 201);
+			this->txtAulaModalidad->Name = L"txtAulaModalidad";
+			this->txtAulaModalidad->Size = System::Drawing::Size(158, 20);
+			this->txtAulaModalidad->TabIndex = 8;
 			// 
-			// textBox4
+			// txtMaestro
 			// 
-			this->textBox4->Location = System::Drawing::Point(548, 198);
-			this->textBox4->Name = L"textBox4";
-			this->textBox4->Size = System::Drawing::Size(190, 20);
-			this->textBox4->TabIndex = 8;
-			// 
-			// textBox5
-			// 
-			this->textBox5->Location = System::Drawing::Point(548, 111);
-			this->textBox5->Name = L"textBox5";
-			this->textBox5->Size = System::Drawing::Size(190, 20);
-			this->textBox5->TabIndex = 9;
+			this->txtMaestro->Location = System::Drawing::Point(548, 111);
+			this->txtMaestro->Name = L"txtMaestro";
+			this->txtMaestro->Size = System::Drawing::Size(158, 20);
+			this->txtMaestro->TabIndex = 9;
 			// 
 			// label3
 			// 
@@ -229,11 +266,11 @@ namespace CppCLRWinFormsProject {
 			this->label5->Font = (gcnew System::Drawing::Font(L"Tahoma", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label5->ForeColor = System::Drawing::Color::White;
-			this->label5->Location = System::Drawing::Point(784, 76);
+			this->label5->Location = System::Drawing::Point(739, 76);
 			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(82, 23);
+			this->label5->Size = System::Drawing::Size(190, 23);
 			this->label5->TabIndex = 12;
-			this->label5->Text = L"Horario";
+			this->label5->Text = L"Horario de entrada";
 			// 
 			// label6
 			// 
@@ -260,32 +297,34 @@ namespace CppCLRWinFormsProject {
 			this->label7->Size = System::Drawing::Size(0, 23);
 			this->label7->TabIndex = 14;
 			// 
-			// button1
+			// btnAgregar
 			// 
-			this->button1->Location = System::Drawing::Point(788, 198);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(101, 23);
-			this->button1->TabIndex = 15;
-			this->button1->Text = L"Agregar";
-			this->button1->UseVisualStyleBackColor = true;
+			this->btnAgregar->Location = System::Drawing::Point(925, 198);
+			this->btnAgregar->Name = L"btnAgregar";
+			this->btnAgregar->Size = System::Drawing::Size(101, 23);
+			this->btnAgregar->TabIndex = 15;
+			this->btnAgregar->Text = L"Agregar";
+			this->btnAgregar->UseVisualStyleBackColor = true;
+			this->btnAgregar->Click += gcnew System::EventHandler(this, &Form1::btnAgregar_Click);
 			// 
-			// button2
+			// btnCancelar
 			// 
-			this->button2->Location = System::Drawing::Point(895, 198);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(102, 23);
-			this->button2->TabIndex = 16;
-			this->button2->Text = L"Cancelar";
-			this->button2->UseVisualStyleBackColor = true;
+			this->btnCancelar->Location = System::Drawing::Point(1032, 198);
+			this->btnCancelar->Name = L"btnCancelar";
+			this->btnCancelar->Size = System::Drawing::Size(102, 23);
+			this->btnCancelar->TabIndex = 16;
+			this->btnCancelar->Text = L"Cancelar";
+			this->btnCancelar->UseVisualStyleBackColor = true;
+			this->btnCancelar->Click += gcnew System::EventHandler(this, &Form1::btnCancelar_Click);
 			// 
-			// button3
+			// btnActualizarLista
 			// 
-			this->button3->Location = System::Drawing::Point(788, 227);
-			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(209, 23);
-			this->button3->TabIndex = 17;
-			this->button3->Text = L"Actualizar Listado";
-			this->button3->UseVisualStyleBackColor = true;
+			this->btnActualizarLista->Location = System::Drawing::Point(925, 227);
+			this->btnActualizarLista->Name = L"btnActualizarLista";
+			this->btnActualizarLista->Size = System::Drawing::Size(209, 23);
+			this->btnActualizarLista->TabIndex = 17;
+			this->btnActualizarLista->Text = L"Actualizar Listado";
+			this->btnActualizarLista->UseVisualStyleBackColor = true;
 			// 
 			// label8
 			// 
@@ -307,7 +346,7 @@ namespace CppCLRWinFormsProject {
 			this->label9->Font = (gcnew System::Drawing::Font(L"Tahoma", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label9->ForeColor = System::Drawing::Color::White;
-			this->label9->Location = System::Drawing::Point(544, 160);
+			this->label9->Location = System::Drawing::Point(469, 160);
 			this->label9->Name = L"label9";
 			this->label9->Size = System::Drawing::Size(162, 23);
 			this->label9->TabIndex = 19;
@@ -320,7 +359,7 @@ namespace CppCLRWinFormsProject {
 			this->label10->Font = (gcnew System::Drawing::Font(L"Tahoma", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label10->ForeColor = System::Drawing::Color::White;
-			this->label10->Location = System::Drawing::Point(784, 160);
+			this->label10->Location = System::Drawing::Point(921, 160);
 			this->label10->Name = L"label10";
 			this->label10->Size = System::Drawing::Size(94, 23);
 			this->label10->TabIndex = 20;
@@ -352,12 +391,12 @@ namespace CppCLRWinFormsProject {
 			this->label12->TabIndex = 22;
 			this->label12->Text = L"Nombre del recordatorio";
 			// 
-			// textBox6
+			// txtNombreRecordatorio
 			// 
-			this->textBox6->Location = System::Drawing::Point(12, 349);
-			this->textBox6->Name = L"textBox6";
-			this->textBox6->Size = System::Drawing::Size(245, 20);
-			this->textBox6->TabIndex = 23;
+			this->txtNombreRecordatorio->Location = System::Drawing::Point(12, 349);
+			this->txtNombreRecordatorio->Name = L"txtNombreRecordatorio";
+			this->txtNombreRecordatorio->Size = System::Drawing::Size(245, 20);
+			this->txtNombreRecordatorio->TabIndex = 23;
 			// 
 			// label13
 			// 
@@ -372,13 +411,6 @@ namespace CppCLRWinFormsProject {
 			this->label13->TabIndex = 24;
 			this->label13->Text = L"Fecha";
 			// 
-			// textBox7
-			// 
-			this->textBox7->Location = System::Drawing::Point(12, 418);
-			this->textBox7->Name = L"textBox7";
-			this->textBox7->Size = System::Drawing::Size(245, 20);
-			this->textBox7->TabIndex = 25;
-			// 
 			// label14
 			// 
 			this->label14->AccessibleDescription = L"";
@@ -392,22 +424,25 @@ namespace CppCLRWinFormsProject {
 			this->label14->TabIndex = 26;
 			this->label14->Text = L"Importancia";
 			// 
-			// comboBox1
+			// comboBoxImportancia
 			// 
-			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Location = System::Drawing::Point(16, 490);
-			this->comboBox1->Name = L"comboBox1";
-			this->comboBox1->Size = System::Drawing::Size(241, 21);
-			this->comboBox1->TabIndex = 27;
+			this->comboBoxImportancia->FormattingEnabled = true;
+			this->comboBoxImportancia->Items->AddRange(gcnew cli::array< System::Object^  >(3) { L"IMPORTANTE", L"REGULAR", L"NORMAL" });
+			this->comboBoxImportancia->Location = System::Drawing::Point(16, 490);
+			this->comboBoxImportancia->Name = L"comboBoxImportancia";
+			this->comboBoxImportancia->Size = System::Drawing::Size(241, 21);
+			this->comboBoxImportancia->TabIndex = 27;
 			// 
-			// button4
+			// btnAgregarRecordatorio
 			// 
-			this->button4->Location = System::Drawing::Point(16, 527);
-			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(75, 23);
-			this->button4->TabIndex = 28;
-			this->button4->Text = L"Agregar";
-			this->button4->UseVisualStyleBackColor = true;
+			this->btnAgregarRecordatorio->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->btnAgregarRecordatorio->Location = System::Drawing::Point(16, 527);
+			this->btnAgregarRecordatorio->Name = L"btnAgregarRecordatorio";
+			this->btnAgregarRecordatorio->Size = System::Drawing::Size(75, 23);
+			this->btnAgregarRecordatorio->TabIndex = 28;
+			this->btnAgregarRecordatorio->Text = L"Agregar";
+			this->btnAgregarRecordatorio->UseVisualStyleBackColor = true;
+			this->btnAgregarRecordatorio->Click += gcnew System::EventHandler(this, &Form1::btnAgregarRecordatorio_Click);
 			// 
 			// button5
 			// 
@@ -418,6 +453,40 @@ namespace CppCLRWinFormsProject {
 			this->button5->Text = L"Cancelar";
 			this->button5->UseVisualStyleBackColor = true;
 			// 
+			// dateTimePickerEntrada
+			// 
+			this->dateTimePickerEntrada->Location = System::Drawing::Point(743, 111);
+			this->dateTimePickerEntrada->Name = L"dateTimePickerEntrada";
+			this->dateTimePickerEntrada->Size = System::Drawing::Size(200, 20);
+			this->dateTimePickerEntrada->TabIndex = 30;
+			// 
+			// dateTimePickerSalida
+			// 
+			this->dateTimePickerSalida->Location = System::Drawing::Point(674, 201);
+			this->dateTimePickerSalida->Name = L"dateTimePickerSalida";
+			this->dateTimePickerSalida->Size = System::Drawing::Size(200, 20);
+			this->dateTimePickerSalida->TabIndex = 31;
+			// 
+			// label15
+			// 
+			this->label15->AccessibleDescription = L"";
+			this->label15->AutoSize = true;
+			this->label15->Font = (gcnew System::Drawing::Font(L"Tahoma", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label15->ForeColor = System::Drawing::Color::White;
+			this->label15->Location = System::Drawing::Point(670, 160);
+			this->label15->Name = L"label15";
+			this->label15->Size = System::Drawing::Size(173, 23);
+			this->label15->TabIndex = 32;
+			this->label15->Text = L"Horario de salida";
+			// 
+			// dateTimePickerFecha
+			// 
+			this->dateTimePickerFecha->Location = System::Drawing::Point(16, 418);
+			this->dateTimePickerFecha->Name = L"dateTimePickerFecha";
+			this->dateTimePickerFecha->Size = System::Drawing::Size(241, 20);
+			this->dateTimePickerFecha->TabIndex = 33;
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -425,43 +494,157 @@ namespace CppCLRWinFormsProject {
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)), static_cast<System::Int32>(static_cast<System::Byte>(31)),
 				static_cast<System::Int32>(static_cast<System::Byte>(28)));
 			this->ClientSize = System::Drawing::Size(1146, 562);
+			this->Controls->Add(this->dateTimePickerFecha);
+			this->Controls->Add(this->label15);
+			this->Controls->Add(this->dateTimePickerSalida);
+			this->Controls->Add(this->dateTimePickerEntrada);
 			this->Controls->Add(this->button5);
-			this->Controls->Add(this->button4);
-			this->Controls->Add(this->comboBox1);
+			this->Controls->Add(this->btnAgregarRecordatorio);
+			this->Controls->Add(this->comboBoxImportancia);
 			this->Controls->Add(this->label14);
-			this->Controls->Add(this->textBox7);
 			this->Controls->Add(this->label13);
-			this->Controls->Add(this->textBox6);
+			this->Controls->Add(this->txtNombreRecordatorio);
 			this->Controls->Add(this->label12);
 			this->Controls->Add(this->label11);
 			this->Controls->Add(this->label10);
 			this->Controls->Add(this->label9);
 			this->Controls->Add(this->label8);
-			this->Controls->Add(this->button3);
-			this->Controls->Add(this->button2);
-			this->Controls->Add(this->button1);
+			this->Controls->Add(this->btnActualizarLista);
+			this->Controls->Add(this->btnCancelar);
+			this->Controls->Add(this->btnAgregar);
 			this->Controls->Add(this->label7);
 			this->Controls->Add(this->label6);
 			this->Controls->Add(this->label5);
 			this->Controls->Add(this->label4);
 			this->Controls->Add(this->label3);
-			this->Controls->Add(this->textBox5);
-			this->Controls->Add(this->textBox4);
-			this->Controls->Add(this->textBox3);
-			this->Controls->Add(this->textBox2);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->txtMaestro);
+			this->Controls->Add(this->txtAulaModalidad);
+			this->Controls->Add(this->txtDiaClases);
+			this->Controls->Add(this->txtNombreMateria);
 			this->Controls->Add(this->label2);
-			this->Controls->Add(this->dataGridView1);
+			this->Controls->Add(this->dataGridViewMaterias);
 			this->Controls->Add(this->panel1);
-			this->Controls->Add(this->monthCalendar1);
+			this->Controls->Add(this->monthCalendarExamenes);
 			this->Controls->Add(this->label1);
 			this->Name = L"Form1";
 			this->Text = L"Form1";
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewMaterias))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	};
+
+	private: System::DateTime GetNextDateOfWeek(System::DayOfWeek dayOfWeek) {
+		DateTime today = DateTime::Today;
+		int daysUntilNext = ((int)dayOfWeek - (int)today.DayOfWeek + 7) % 7;
+		return today.AddDays(daysUntilNext);
+	}
+
+	private: System::Void btnAgregar_Click(System::Object^ sender, System::EventArgs^ e) {
+		// Capturar la información de los campos de texto
+		String^ nombre = txtNombreMateria->Text;
+		String^ maestro = txtMaestro->Text;
+		String^ diaClases = txtDiaClases->Text;
+		String^ aulaModalidad = txtAulaModalidad->Text;
+
+		// Obtener las horas seleccionadas de los DateTimePicker
+		String^ horario = dateTimePickerEntrada->Value.ToShortTimeString() + " a " + dateTimePickerSalida->Value.ToShortTimeString();
+
+		// Verificar que no estén vacíos los campos requeridos
+		if (String::IsNullOrEmpty(nombre) || String::IsNullOrEmpty(maestro) || String::IsNullOrEmpty(diaClases)) {
+			MessageBox::Show("Por favor, completa todos los campos requeridos.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			return;
+		}
+
+		// Mapear los días de la semana en inglés a los en español
+		System::Collections::Generic::Dictionary<String^, System::DayOfWeek>^ dias = gcnew System::Collections::Generic::Dictionary<String^, System::DayOfWeek>();
+		dias->Add("Lunes", System::DayOfWeek::Monday);
+		dias->Add("Martes", System::DayOfWeek::Tuesday);
+		dias->Add("Miércoles", System::DayOfWeek::Wednesday);
+		dias->Add("Jueves", System::DayOfWeek::Thursday);
+		dias->Add("Viernes", System::DayOfWeek::Friday);
+		dias->Add("Sábado", System::DayOfWeek::Saturday);
+		dias->Add("Domingo", System::DayOfWeek::Sunday);
+
+		if (dias->ContainsKey(diaClases)) {
+			// Obtener la próxima fecha correspondiente al día de la semana
+			DateTime fechaClase = GetNextDateOfWeek(dias[diaClases]);
+
+			// Añadir la fecha al calendario en negrita
+			monthCalendarExamenes->AddBoldedDate(fechaClase);
+			monthCalendarExamenes->UpdateBoldedDates();
+		}
+		else {
+			MessageBox::Show("El día de la semana ingresado no es válido.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			return;
+		}
+
+		// Agregar la información al DataGridView
+		int n = dataGridViewMaterias->Rows->Add();
+		dataGridViewMaterias->Rows[n]->Cells[0]->Value = nombre;
+		dataGridViewMaterias->Rows[n]->Cells[1]->Value = maestro;
+		dataGridViewMaterias->Rows[n]->Cells[2]->Value = horario;
+		dataGridViewMaterias->Rows[n]->Cells[3]->Value = diaClases;
+		dataGridViewMaterias->Rows[n]->Cells[4]->Value = aulaModalidad;
+
+		// Limpiar los campos después de agregar la materia
+		txtNombreMateria->Clear();
+		txtMaestro->Clear();
+		txtDiaClases->Clear();
+		txtAulaModalidad->Clear();
+		dateTimePickerEntrada->Value = DateTime::Now;
+		dateTimePickerSalida->Value = DateTime::Now;
+	}
+private: System::Void btnCancelar_Click(System::Object^ sender, System::EventArgs^ e) {
+	txtNombreMateria->Clear();
+	txtMaestro->Clear();
+	txtDiaClases->Clear();
+	txtAulaModalidad->Clear();
+	dateTimePickerEntrada->Value = DateTime::Now; // Resetear a la hora actual
+	dateTimePickerSalida->Value = DateTime::Now;
+}
+private: System::Void btnAgregarRecordatorio_Click(System::Object^ sender, System::EventArgs^ e) {
+	String^ nombreRecordatorio = txtNombreRecordatorio->Text;
+	DateTime fechaRecordatorio = dateTimePickerFecha->Value.Date;  // Solo la fecha, sin hora
+	String^ importancia = comboBoxImportancia->SelectedItem->ToString();
+
+	if (String::IsNullOrEmpty(nombreRecordatorio) || String::IsNullOrEmpty(importancia)) {
+		MessageBox::Show("Por favor, completa todos los campos.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		return;
+	}
+
+	// Guardar el recordatorio en el diccionario
+	if (!recordatorios->ContainsKey(fechaRecordatorio)) {
+		recordatorios[fechaRecordatorio] = gcnew System::Collections::Generic::List<String^>();
+	}
+	recordatorios[fechaRecordatorio]->Add(nombreRecordatorio + " (" + importancia + ")");
+
+	// Agregar el recordatorio al calendario
+	monthCalendarExamenes->AddBoldedDate(fechaRecordatorio);
+	monthCalendarExamenes->UpdateBoldedDates();
+
+	// Limpiar los campos después de agregar el recordatorio
+	txtNombreRecordatorio->Clear();
+	comboBoxImportancia->SelectedIndex = -1;
+	dateTimePickerFecha->Value = DateTime::Now;
+}
+private: System::Void monthCalendarExamenes_DateChanged(System::Object^ sender, System::Windows::Forms::DateRangeEventArgs^ e) {
+}
+private: System::Void monthCalendarExamenes_DateSelected(System::Object^ sender, System::Windows::Forms::DateRangeEventArgs^ e) {
+	DateTime fechaSeleccionada = e->Start.Date;  // Obtener la fecha seleccionada
+
+	if (recordatorios->ContainsKey(fechaSeleccionada)) {
+		// Concatenar todos los recordatorios de esa fecha
+		String^ mensaje = "Recordatorios para " + fechaSeleccionada.ToShortDateString() + ":\n";
+		for each (String ^ recordatorio in recordatorios[fechaSeleccionada]) {
+			mensaje += "- " + recordatorio + "\n";
+		}
+		MessageBox::Show(mensaje, "Recordatorios", MessageBoxButtons::OK, MessageBoxIcon::Information);
+	}
+	else {
+		MessageBox::Show("No hay recordatorios para esta fecha.", "Recordatorios", MessageBoxButtons::OK, MessageBoxIcon::Information);
+	}
+}
+};
 }
